@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import deploy from './deploy';
-import Escrow from './Escrow';
+import Escrow from './escrow';
+import server from "./server";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -26,11 +27,22 @@ function App() {
     getAccounts();
   }, [account]);
 
+  useEffect(() => {
+    async function getAccounts() {
+      const accounts = await provider.send('eth_requestAccounts', []);
+
+      setAccount(accounts[0]);
+      setSigner(provider.getSigner());
+    }
+
+    getAccounts();
+  }, []);
+
   async function newContract() {
     const beneficiary = document.getElementById('beneficiary').value;
     const arbiter = document.getElementById('arbiter').value;
     const value = ethers.BigNumber.from(document.getElementById('wei').value);
-    const escrowContract = await deploy(signer, arbiter, beneficiary, value);
+    const escrowContract = await deploy(signer, arbiter, beneficiary, ethers.utils.formatEther(value));
 
 
     const escrow = {
@@ -51,11 +63,16 @@ function App() {
     };
 
     setEscrows([...escrows, escrow]);
+
+    await server.post(`contract/create`, {
+      escrow
+    });
+
   }
 
   return (
-    <>
-      <div className="contract">
+    <div className='container'>
+      <div className="contract border-gradient border-gradient-green">
         <h1> New Contract </h1>
         <label>
           Arbiter Address
@@ -68,12 +85,12 @@ function App() {
         </label>
 
         <label>
-          Deposit Amount (in Wei)
+          Deposit Amount (in Ether)
           <input type="text" id="wei" />
         </label>
 
-        <div
-          className="button"
+        <button
+          className="button btn-grad"
           id="deploy"
           onClick={(e) => {
             e.preventDefault();
@@ -82,10 +99,10 @@ function App() {
           }}
         >
           Deploy
-        </div>
+        </button>
       </div>
 
-      <div className="existing-contracts">
+{       <div className="existing-contracts border-gradient border-gradient-green">
         <h1> Existing Contracts </h1>
 
         <div id="container">
@@ -93,8 +110,8 @@ function App() {
             return <Escrow key={escrow.address} {...escrow} />;
           })}
         </div>
-      </div>
-    </>
+      </div>}
+    </div>
   );
 }
 

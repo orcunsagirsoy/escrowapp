@@ -1,21 +1,31 @@
 body {
-  background-color: #eee;
-  display: flex;
+  background-color: #000000;
   font-family: 'Muli', sans-serif;
+  margin: 0;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .contract, .existing-contracts {
-  margin: 20px;
-  display: inline-block;
   padding: 40px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  background-color: #1e1e1e;
+  min-height: 370px;
+  min-width: 500px;
+  margin: 50px;
 }
 
 h1 {
   margin: 10px;
   padding: 10px;
   border-bottom: 1px solid #eee;
+  color: white;
 }
 
 label {
@@ -30,6 +40,34 @@ input[type="text"] {
   padding: 6px;
   font-size: 18px;
 }
+input:focus {
+  outline: none;
+  border-color: #56B4D3;
+}
+
+         
+         
+.btn-grad {
+  background-image: linear-gradient(to right, #348F50 0%, #56B4D3  51%, #348F50  100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 10px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+
 
 .button {
   background-color: #f58427;
@@ -56,6 +94,16 @@ input[type="text"] {
   margin: 10px;
 }
 
+.border-gradient {
+  border: 5px solid;
+  border-image-slice: 1;
+  border-width: 3px;
+}
+.border-gradient-green {
+  border-image-source: linear-gradient(to right, #348F50 0%, #56B4D3  51%, #348F50  100%);
+}
+
+
 .existing-contract ul > li > div {
   margin: 0 5px;
 }
@@ -67,4 +115,8 @@ input[type="text"] {
 .existing-contract .complete {
   color: #5aa75a;
   text-align: center;
+}
+
+.border-gradient-green {
+  
 }
